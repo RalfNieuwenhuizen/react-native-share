@@ -81,7 +81,7 @@ public abstract class ShareIntent {
     protected boolean isPackageInstalled(String packagename, Context context) {
         PackageManager pm = context.getPackageManager();
         try {
-            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            pm.getPackageInfo(packagename, 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
