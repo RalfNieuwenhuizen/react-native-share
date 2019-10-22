@@ -1,0 +1,59 @@
+//
+//  InstagramShare.m
+//  RNShare
+//
+//  Created by Ralf Nieuwenhuizen on 12-04-17.
+//
+
+#import "InstagramStoriesShare.h"
+#import <AVFoundation/AVFoundation.h>
+
+@implementation InstagramStoriesShare
+- (void)shareSingle:(NSDictionary *)options
+    failureCallback:(RCTResponseErrorBlock)failureCallback
+    successCallback:(RCTResponseSenderBlock)successCallback {
+    
+    NSLog(@"Try open view");
+
+    NSURL * fileURL = [NSURL URLWithString: options[@"url"]];
+    AVURLAsset* videoAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+    CMTime videoDuration = videoAsset.duration;
+    float videoDurationSeconds = CMTimeGetSeconds(videoDuration);
+
+    NSLog(@"Video duration: %f seconds for file %@", videoDurationSeconds, videoAsset.URL.absoluteString);
+        
+    NSURL * shareURL;
+    // Instagram doesn't allow sharing videos longer than 60 seconds on iOS anymore. (next button is not responding, trim is unavailable)
+    if (videoDurationSeconds <= 60.0f) {
+        NSString * urlString = [NSURL URLWithString:@"instagram-stories://share"];
+        shareURL = [NSURL URLWithString:urlString];
+    } else {
+        shareURL = [NSURL URLWithString:@"instagram://camera"];
+    }
+    
+    if ([[UIApplication sharedApplication] canOpenURL: shareURL]) {
+        // Assign background and sticker image assets and 
+        // attribution link URL to pasteboard
+        NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.backgroundVideo" : [NSData dataWithContentsOfURL:fileURL]}];
+        NSDictionary *pasteboardOptions = @{UIPasteboardOptionExpirationDate : [[NSDate date] dateByAddingTimeInterval:60 * 5]};
+        // This call is iOS 10+, can use 'setItems' depending on what versions you support
+        [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
+        
+        [[UIApplication sharedApplication] openURL: shareURL];
+        successCallback(@[]);
+    } else {
+        // Cannot open instagram
+        NSString *stringURL = @"http://itunes.apple.com/app/instagram/id389801252";
+        NSURL *url = [NSURL URLWithString:stringURL];
+        [[UIApplication sharedApplication] openURL:url];
+        
+        NSString *errorMessage = @"Not installed";
+        NSDictionary *userInfo = @{NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorMessage, nil)};
+        NSError *error = [NSError errorWithDomain:@"com.rnshare" code:1 userInfo:userInfo];
+        
+        NSLog(errorMessage);
+        failureCallback(error);
+    } 
+}
+
+@end

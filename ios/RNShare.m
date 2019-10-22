@@ -43,6 +43,7 @@
 #import "GenericShare.h"
 #import "WhatsAppShare.h"
 #import "InstagramShare.h"
+#import "InstagramStoriesShare.h"
 #import "GooglePlusShare.h"
 #import "EmailShare.h"
 
@@ -80,6 +81,10 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
         } else if([social isEqualToString:@"instagram"]) {
             NSLog(@"TRY OPEN instagram");
             InstagramShare *shareCtl = [[InstagramShare alloc] init];
+            [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else if([social isEqualToString:@"instagramstories"]) {
+            NSLog(@"TRY OPEN instagram stories");
+            InstagramStoriesShare *shareCtl = [[InstagramStoriesShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else if([social isEqualToString:@"email"]) {
             NSLog(@"TRY OPEN email");
