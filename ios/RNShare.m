@@ -82,7 +82,7 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
             NSLog(@"TRY OPEN instagram");
             InstagramShare *shareCtl = [[InstagramShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
-        } else if([social isEqualToString:@"instagramstories"]) {
+        } else if([social isEqualToString:@"instagram-stories"]) {
             NSLog(@"TRY OPEN instagram stories");
             InstagramStoriesShare *shareCtl = [[InstagramStoriesShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
@@ -90,6 +90,8 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
             NSLog(@"TRY OPEN email");
             EmailShare *shareCtl = [[EmailShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else {
+            failureCallback(@"unsupported platform supplied to shareSingle");
         }
     } else {
         RCTLogError(@"key 'social' missing in options");
