@@ -1,12 +1,13 @@
 //
-//  InstagramShare.m
+//  InstagramStoriesShare.m
 //  RNShare
 //
-//  Created by Ralf Nieuwenhuizen on 12-04-17.
+//  Created by Ralf Nieuwenhuizen on 22-10-19.
 //
 
 #import "InstagramStoriesShare.h"
 #import <AVFoundation/AVFoundation.h>
+#import "InstagramShare.h"
 
 @implementation InstagramStoriesShare
 - (void)shareSingle:(NSDictionary *)options
@@ -26,16 +27,23 @@
     // Instagram doesn't allow sharing videos longer than 20 seconds to stories
     // https://developers.facebook.com/docs/instagram/sharing-to-stories/
     if (videoDurationSeconds <= 20.0f) {
-        NSString * urlString = [NSURL URLWithString:@"instagram-stories://share"];
-        shareURL = [NSURL URLWithString:urlString];
+        shareURL = [NSURL URLWithString:@"instagram-stories://share"];
     } else {
         shareURL = [NSURL URLWithString:@"instagram://camera"];
     }
     
     if ([[UIApplication sharedApplication] canOpenURL: shareURL]) {
-        // Assign background and sticker image assets and 
+        // Assign background and sticker image assets and
         // attribution link URL to pasteboard
-        NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.backgroundVideo" : [NSData dataWithContentsOfURL:fileURL]}];
+        NSError* fileDataError = nil;
+        NSData* fileData = [NSData dataWithContentsOfFile:options[@"url"] options:0 error:&fileDataError];
+        
+        if (fileData == nil || fileDataError != nil) {
+            failureCallback(fileDataError);
+            return;
+        }
+
+        NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.backgroundVideo" : fileData}];
         NSDictionary *pasteboardOptions = @{UIPasteboardOptionExpirationDate : [[NSDate date] dateByAddingTimeInterval:60 * 5]};
         // This call is iOS 10+, can use 'setItems' depending on what versions you support
         [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
@@ -43,18 +51,10 @@
         [[UIApplication sharedApplication] openURL: shareURL];
         successCallback(@[]);
     } else {
-        // Cannot open instagram
-        NSString *stringURL = @"http://itunes.apple.com/app/instagram/id389801252";
-        NSURL *url = [NSURL URLWithString:stringURL];
-        [[UIApplication sharedApplication] openURL:url];
-        
-        NSString *errorMessage = @"Not installed";
-        NSDictionary *userInfo = @{NSLocalizedFailureReasonErrorKey: NSLocalizedString(errorMessage, nil)};
-        NSError *error = [NSError errorWithDomain:@"com.rnshare" code:1 userInfo:userInfo];
-        
-        NSLog(errorMessage);
-        failureCallback(error);
-    } 
+        NSLog(@"TRY OPEN instagram");
+        InstagramShare *shareCtl = [[InstagramShare alloc] init];
+        [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+    }
 }
 
 @end
