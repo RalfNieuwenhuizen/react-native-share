@@ -58,11 +58,11 @@
         NSString *escapedString = [options[@"message"] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
 
         if ([options[@"social"] isEqualToString:@"twitter"]) {
-          NSString *URL = [NSString stringWithFormat:@"https://twitter.com/intent/tweet?message=%@&url=%@", escapedString, options[@"url"]];
+          NSString *URL = [NSString stringWithFormat:@"https://twitter.com/intent/tweet?text=%@&url=%@", escapedString, options[@"url"]];
           [self openScheme:URL];
         }
 
-        if ([options[@"social"] isEqualToString:@"facebook"]) {
+        if ([options[@"social"] isEqualToString:@"facebook"] && [options[@"url"] hasPrefix:@"http"]) {
           NSString *URL = [NSString stringWithFormat:@"https://www.facebook.com/sharer/sharer.php?u=%@", options[@"url"]];
           [self openScheme:URL];
         }

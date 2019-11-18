@@ -21,6 +21,7 @@ import cl.json.social.GooglePlusShare;
 import cl.json.social.ShareIntent;
 import cl.json.social.TwitterShare;
 import cl.json.social.WhatsAppShare;
+import cl.json.social.InstagramShare;
 
 public class RNShareModule extends ReactContextBaseJavaModule {
 
@@ -29,13 +30,7 @@ public class RNShareModule extends ReactContextBaseJavaModule {
     public RNShareModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        sharesExtra.put("generic", new GenericShare(this.reactContext));
-        sharesExtra.put("facebook", new FacebookShare(this.reactContext));
-        sharesExtra.put("twitter", new TwitterShare(this.reactContext));
-        sharesExtra.put("whatsapp",new WhatsAppShare(this.reactContext));
-        sharesExtra.put("googleplus",new GooglePlusShare(this.reactContext));
-        sharesExtra.put("email",new EmailShare(this.reactContext));
-        //  add more customs single intent shares here
+        this.setShares();
     }
 
     @Override
@@ -60,8 +55,12 @@ public class RNShareModule extends ReactContextBaseJavaModule {
         System.out.println("SHARE SINGLE METHOD");
         if (ShareIntent.hasValidKey("social", options) ) {
             try{
-                this.sharesExtra.get(options.getString("social")).open(options);
-                successCallback.invoke("OK");
+                String shareResult = this.sharesExtra.get(options.getString("social")).open(options);
+                if (shareResult.equals("OK")) {
+                    successCallback.invoke(shareResult);
+                } else {
+                    failureCallback.invoke(shareResult);
+                }
             }catch(ActivityNotFoundException ex) {
                 System.out.println("ERROR");
                 System.out.println(ex.getMessage());
@@ -70,5 +69,17 @@ public class RNShareModule extends ReactContextBaseJavaModule {
         } else {
             failureCallback.invoke("key 'social' missing in options");
         }
+        this.setShares();
+    }
+
+    private void setShares() {
+        sharesExtra.put("generic", new GenericShare(this.reactContext));
+        sharesExtra.put("facebook", new FacebookShare(this.reactContext));
+        sharesExtra.put("twitter", new TwitterShare(this.reactContext));
+        sharesExtra.put("whatsapp",new WhatsAppShare(this.reactContext));
+        sharesExtra.put("instagram",new InstagramShare(this.reactContext));
+        sharesExtra.put("googleplus",new GooglePlusShare(this.reactContext));
+        sharesExtra.put("email",new EmailShare(this.reactContext));
+        //  add more customs single intent shares here
     }
 }

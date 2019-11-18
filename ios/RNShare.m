@@ -42,6 +42,8 @@
 #endif
 #import "GenericShare.h"
 #import "WhatsAppShare.h"
+#import "InstagramShare.h"
+#import "InstagramStoriesShare.h"
 #import "GooglePlusShare.h"
 #import "EmailShare.h"
 
@@ -74,13 +76,22 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else if([social isEqualToString:@"whatsapp"]) {
             NSLog(@"TRY OPEN whatsapp");
-            
             WhatsAppShare *shareCtl = [[WhatsAppShare alloc] init];
+            [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else if([social isEqualToString:@"instagram"]) {
+            NSLog(@"TRY OPEN instagram");
+            InstagramShare *shareCtl = [[InstagramShare alloc] init];
+            [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else if([social isEqualToString:@"instagram-stories"]) {
+            NSLog(@"TRY OPEN instagram stories");
+            InstagramStoriesShare *shareCtl = [[InstagramStoriesShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else if([social isEqualToString:@"email"]) {
             NSLog(@"TRY OPEN email");
             EmailShare *shareCtl = [[EmailShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else {
+            failureCallback(@"unsupported platform supplied to shareSingle");
         }
     } else {
         RCTLogError(@"key 'social' missing in options");

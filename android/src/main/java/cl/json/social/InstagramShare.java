@@ -1,30 +1,35 @@
 package cl.json.social;
 
 import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import java.io.File;
+import android.os.Environment;
+import android.net.Uri;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableMap;
 
 /**
- * Created by disenodosbbcl on 23-07-16.
+ * Created by Ralf Nieuwenhuizen on 10-04-17.
  */
-public class FacebookShare extends SingleShareIntent {
+public class InstagramShare extends SingleShareIntent {
 
-    private static final String PACKAGE = "com.facebook.katana";
-    private static final String DEFAULT_WEB_LINK = "https://www.facebook.com/sharer/sharer.php?u={url}";
+    private static final String PACKAGE = "com.instagram.android";
+    private static final String PLAY_STORE_LINK = "market://details?id=com.instagram.android";
 
-    public FacebookShare(ReactApplicationContext reactContext) {
+    public InstagramShare(ReactApplicationContext reactContext) {
         super(reactContext);
-
     }
+
     @Override
     public String open(ReadableMap options) throws ActivityNotFoundException {
         String shareResult = super.open(options);
-        //  MORE DATA
+        //  extra params here
         this.openIntentChooser();
 
         return shareResult;
     }
+
     @Override
     protected String getPackage() {
         return PACKAGE;
@@ -32,11 +37,11 @@ public class FacebookShare extends SingleShareIntent {
 
     @Override
     protected String getDefaultWebLink() {
-        return DEFAULT_WEB_LINK;
+        return null;
     }
 
     @Override
     protected String getPlayStoreLink() {
-        return null;
+        return PLAY_STORE_LINK;
     }
 }
