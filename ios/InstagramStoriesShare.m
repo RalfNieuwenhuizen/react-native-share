@@ -43,7 +43,10 @@
             return;
         }
 
-        NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.backgroundVideo" : fileData}];
+        NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.backgroundVideo" : fileData,
+                                       @"com.instagram.sharedSticker.contentURL" : @"https://www.relive.cc",
+                                       @"com.instagram.sharedSticker.backgroundTopColor" : @"#FFDD00",
+                                       @"com.instagram.sharedSticker.backgroundBottomColor" : @"#FFDD00"}];
         NSDictionary *pasteboardOptions = @{UIPasteboardOptionExpirationDate : [[NSDate date] dateByAddingTimeInterval:60 * 5]};
         // This call is iOS 10+, can use 'setItems' depending on what versions you support
         [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
