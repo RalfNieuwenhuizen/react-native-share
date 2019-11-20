@@ -19,18 +19,22 @@
        NSLog(@"Message services are not available.");
     }
 
-//    [[CTMessageCenter sharedMessageCenter] sendSMSWithText: serviceCenter:nil toAddress:nil];
     MFMessageComposeViewController* composeVC = [[MFMessageComposeViewController alloc] init];
     composeVC.messageComposeDelegate = self;
      
-    // Configure the fields of the interface.
-    composeVC.recipients = @[@"14085551212"];
-    composeVC.body = options[@"url"];
+    if ([options objectForKey:@"message"] && [options objectForKey:@"message"] != [NSNull null]) {
+        // Configure the fields of the interface.
+        NSString *text = [RCTConvert NSString:options[@"message"]];
+        if ([options objectForKey:@"url"] && [options objectForKey:@"url"] != [NSNull null]) {
+            text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
+        }
+        composeVC.body = text;
+    }
      
     // Present the view controller modally.
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
     [ctrl presentViewController:composeVC animated:YES completion:nil];
-    
+
     successCallback(@[]);
 }
 
