@@ -40,10 +40,15 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
               didFinishWithResult:(MessageComposeResult)result {
+    NSLog(@"messageComposeViewController didFinishWithResult"); // TODO: This never seems to be called
+    
     // Check the result or perform other tasks.
     // Dismiss the message compose view controller.
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [ctrl dismissViewControllerAnimated:YES completion:nil];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+
+    // Different options here, dismiss from ctrl that presented it, or from controller itself
+    // UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    // [ctrl dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
