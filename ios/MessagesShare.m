@@ -21,23 +21,25 @@ static MFMessageComposeViewController *composeVC;
        NSLog(@"Message services are not available.");
     }
 
-    composeVC = [[MFMessageComposeViewController alloc] init];
-    composeVC.messageComposeDelegate = self;
-        
-    if ([options objectForKey:@"message"] && [options objectForKey:@"message"] != [NSNull null]) {
-        // Configure the fields of the interface.
-        NSString *text = [RCTConvert NSString:options[@"message"]];
-        if ([options objectForKey:@"url"] && [options objectForKey:@"url"] != [NSNull null]) {
-            text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        composeVC = [[MFMessageComposeViewController alloc] init];
+        composeVC.messageComposeDelegate = self;
+         
+        if ([options objectForKey:@"message"] && [options objectForKey:@"message"] != [NSNull null]) {
+            // Configure the fields of the interface.
+            NSString *text = [RCTConvert NSString:options[@"message"]];
+            if ([options objectForKey:@"url"] && [options objectForKey:@"url"] != [NSNull null]) {
+                text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
+            }
+            composeVC.body = text;
         }
-        composeVC.body = text;
-    }
-        
-    // Present the view controller modally.
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [ctrl presentViewController:composeVC animated:YES completion:nil];
+         
+        // Present the view controller modally.
+        UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        [ctrl presentViewController:composeVC animated:YES completion:nil];
 
-    successCallback(@[]);
+        successCallback(@[]);
+    });
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
