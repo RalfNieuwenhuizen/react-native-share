@@ -55,6 +55,15 @@
 }
 RCT_EXPORT_MODULE()
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.messagesShareCtl = [[MessagesShare alloc] init];
+    }
+    return self;
+}
+
 RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
                   failureCallback:(RCTResponseErrorBlock)failureCallback
                   successCallback:(RCTResponseSenderBlock)successCallback)
@@ -93,8 +102,7 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else if([social isEqualToString:@"messages"]) {
             NSLog(@"TRY OPEN messages");
-            MessagesShare *shareCtl = [[MessagesShare alloc] init];
-            [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+            [self.messagesShareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else {
             failureCallback(@"unsupported platform supplied to shareSingle");
         }

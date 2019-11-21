@@ -50,5 +50,7 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 @interface MessagesShare : NSObject <MFMessageComposeViewControllerDelegate>
 
-- (void *) shareSingle:(NSDictionary *)options failureCallback:(RCTResponseErrorBlock)failureCallback successCallback:(RCTResponseSenderBlock)successCallback;
+@property (nonatomic, strong) MFMessageComposeViewController *composeVC;
+
+- (void) shareSingle:(NSDictionary *)options failureCallback:(RCTResponseErrorBlock)failureCallback successCallback:(RCTResponseSenderBlock)successCallback;
 @end
