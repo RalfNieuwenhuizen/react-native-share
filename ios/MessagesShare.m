@@ -9,7 +9,6 @@
 #import <MessageUI/MFMessageComposeViewController.h>
 
 @implementation MessagesShare
-static MFMessageComposeViewController *composeVC;
 
 - (void)shareSingle:(NSDictionary *)options
     failureCallback:(RCTResponseErrorBlock)failureCallback
@@ -21,9 +20,10 @@ static MFMessageComposeViewController *composeVC;
        NSLog(@"Message services are not available.");
     }
 
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        composeVC = [[MFMessageComposeViewController alloc] init];
-        composeVC.messageComposeDelegate = self;
+        self.composeVC = [[MFMessageComposeViewController alloc] init];
+        self.composeVC.messageComposeDelegate = self;
          
         if ([options objectForKey:@"message"] && [options objectForKey:@"message"] != [NSNull null]) {
             // Configure the fields of the interface.
@@ -31,12 +31,12 @@ static MFMessageComposeViewController *composeVC;
             if ([options objectForKey:@"url"] && [options objectForKey:@"url"] != [NSNull null]) {
                 text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
             }
-            composeVC.body = text;
+            self.composeVC.body = text;
         }
          
         // Present the view controller modally.
         UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-        [ctrl presentViewController:composeVC animated:YES completion:nil];
+        [ctrl presentViewController:self.composeVC animated:YES completion:nil];
 
         successCallback(@[]);
     });
