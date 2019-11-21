@@ -29,7 +29,15 @@
             // Configure the fields of the interface.
             NSString *text = [RCTConvert NSString:options[@"message"]];
             if ([options objectForKey:@"url"] && [options objectForKey:@"url"] != [NSNull null]) {
-                text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
+                if ([MFMessageComposeViewController canSendAttachments] && [options[@"url"] rangeOfString:@"mp4"].location != NSNotFound) {
+                    NSLog(@"Sharing mp4 file to Messages");
+                    NSURL *attachmentUrl = [NSURL URLWithString:options[@"url"]];
+                    if( [self.composeVC addAttachmentURL:attachmentUrl withAlternateFilename:nil]) {
+                        NSLog(@"mp4 attachment added");
+                    }
+                } else {
+                    text = [text stringByAppendingString: [@" " stringByAppendingString: [RCTConvert NSString:options[@"url"]]] ];
+                }
             }
             self.composeVC.body = text;
         }
