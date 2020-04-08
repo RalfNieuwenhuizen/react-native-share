@@ -78,6 +78,7 @@ public class RNShareModule extends ReactContextBaseJavaModule {
         sharesExtra.put("twitter", new TwitterShare(this.reactContext));
         sharesExtra.put("whatsapp",new WhatsAppShare(this.reactContext));
         sharesExtra.put("instagram",new InstagramShare(this.reactContext));
+        sharesExtra.put("instagram-stories",new InstagramShare(this.reactContext));
         sharesExtra.put("googleplus",new GooglePlusShare(this.reactContext));
         sharesExtra.put("email",new EmailShare(this.reactContext));
         //  add more customs single intent shares here
