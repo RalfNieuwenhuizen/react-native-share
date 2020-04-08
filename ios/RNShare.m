@@ -46,6 +46,7 @@
 #import "InstagramStoriesShare.h"
 #import "GooglePlusShare.h"
 #import "EmailShare.h"
+#import "MessagesShare.h"
 
 @implementation RNShare
 - (dispatch_queue_t)methodQueue
@@ -53,6 +54,15 @@
     return dispatch_get_main_queue();
 }
 RCT_EXPORT_MODULE()
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.messagesShareCtl = [[MessagesShare alloc] init];
+    }
+    return self;
+}
 
 RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
                   failureCallback:(RCTResponseErrorBlock)failureCallback
@@ -90,6 +100,9 @@ RCT_EXPORT_METHOD(shareSingle:(NSDictionary *)options
             NSLog(@"TRY OPEN email");
             EmailShare *shareCtl = [[EmailShare alloc] init];
             [shareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
+        } else if([social isEqualToString:@"messages"]) {
+            NSLog(@"TRY OPEN messages");
+            [self.messagesShareCtl shareSingle:options failureCallback: failureCallback successCallback: successCallback];
         } else {
             failureCallback(@"unsupported platform supplied to shareSingle");
         }

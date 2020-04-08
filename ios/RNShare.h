@@ -8,6 +8,10 @@
 #import "React/RCTBridgeModule.h"   // Required when used as a Pod in a Swift project
 #endif
 
+#import "MessagesShare.h"
+
 @interface RNShare : NSObject <RCTBridgeModule>
+
+@property (nonatomic, strong) MessagesShare *messagesShareCtl;
 
 @end

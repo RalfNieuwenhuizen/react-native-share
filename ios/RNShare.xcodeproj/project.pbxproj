@@ -14,6 +14,7 @@
 		B3EEE48E1D4844E7008422B6 /* GooglePlusShare.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EEE48D1D4844E7008422B6 /* GooglePlusShare.m */; };
 		CE0A26E0235F42D400E203CE /* InstagramStoriesShare.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0A26DE235F42D400E203CE /* InstagramStoriesShare.m */; };
 		CE0C76371E9E7DE100ED396E /* InstagramShare.m in Sources */ = {isa = PBXBuildFile; fileRef = CE0C76361E9E7DE100ED396E /* InstagramShare.m */; };
+		CE1928C0238447EC009DAC86 /* MessagesShare.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1928BE238447EB009DAC86 /* MessagesShare.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,8 @@
 		CE0A26DF235F42D400E203CE /* InstagramStoriesShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramStoriesShare.h; sourceTree = "<group>"; };
 		CE0C76361E9E7DE100ED396E /* InstagramShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InstagramShare.m; sourceTree = "<group>"; };
 		CE0C76621E9E869300ED396E /* InstagramShare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InstagramShare.h; sourceTree = "<group>"; };
+		CE1928BE238447EB009DAC86 /* MessagesShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesShare.m; sourceTree = "<group>"; };
+		CE1928BF238447EB009DAC86 /* MessagesShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesShare.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,8 @@
 		B33C22801D43F9B0006BCD98 /* social */ = {
 			isa = PBXGroup;
 			children = (
+				CE1928BF238447EB009DAC86 /* MessagesShare.h */,
+				CE1928BE238447EB009DAC86 /* MessagesShare.m */,
 				CE0A26DF235F42D400E203CE /* InstagramStoriesShare.h */,
 				CE0A26DE235F42D400E203CE /* InstagramStoriesShare.m */,
 				CE0C76361E9E7DE100ED396E /* InstagramShare.m */,
@@ -156,6 +161,7 @@
 				B3E7B58A1CC2AC0600A0062D /* RNShare.m in Sources */,
 				B33C22891D4419E8006BCD98 /* WhatsAppShare.m in Sources */,
 				CE0A26E0235F42D400E203CE /* InstagramStoriesShare.m in Sources */,
+				CE1928C0238447EC009DAC86 /* MessagesShare.m in Sources */,
 				B33C228B1D442577006BCD98 /* EmailShare.m in Sources */,
 				B33C22851D441713006BCD98 /* GenericShare.m in Sources */,
 			);

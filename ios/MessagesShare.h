@@ -1,8 +1,8 @@
 //
-//  InstagramShare.h
+//  MessagesShare.h
 //  RNShare
 //
-//  Created by Ralf Nieuwenhuizen on 12-04-17.
+//  Created by Ralf Nieuwenhuizen on 19-11-19.
 //
 
 #import <UIKit/UIKit.h>
@@ -46,7 +46,11 @@
 #else
 #import "React/RCTUtils.h"   // Required when used as a Pod in a Swift project
 #endif
-@interface InstagramStoriesShare : NSObject <RCTBridgeModule>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMessageComposeViewController.h>
+@interface MessagesShare : NSObject <MFMessageComposeViewControllerDelegate>
+
+@property (nonatomic, strong) MFMessageComposeViewController *composeVC;
 
 - (void) shareSingle:(NSDictionary *)options failureCallback:(RCTResponseErrorBlock)failureCallback successCallback:(RCTResponseSenderBlock)successCallback;
 @end
